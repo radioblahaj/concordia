@@ -1,10 +1,14 @@
 import { WebClient } from '@slack/web-api';
 import pkg from '@slack/bolt';
-const { App } = pkg;
 import dotenv from 'dotenv';
 import { getPrisma } from './getPrisma.js';
 import { getAllMessages } from './getAllMessages.js';
+import cron from 'node-cron';
+
+const { App } = pkg;
 const prisma = getPrisma();
+
+
 
 
 dotenv.config();
@@ -21,10 +25,9 @@ const web = new WebClient(token);
   socketMode: true
 });
 
-const channelID = "C08JD1LKYBD" 
-
 app.event('member_joined_channel', async ({ event, client, logger }) => {
     try {
+        
     const getMessages =  await getAllMessages(event.user)
     const messageCount = getMessages.total_count
 
@@ -50,10 +53,20 @@ app.event('member_joined_channel', async ({ event, client, logger }) => {
 
 
 
+
 (async () => {
     // Start your app
     await app.start(process.env.PORT || 3000);
-    
+    cron.schedule('* * * * * *', async () => {
+        const data = await prisma.Users.findMany();
+       for (const element of data) {
+          const messageCount =  await getAllMessages(element.id)
+        //   console.log(messageCount.total_count)
+          if (messageCount.total_count > 200) {
+            console.log(":D")
+          }
+       }
+    });
     console.log(':zap: Bolt app is running!');
   })();
 

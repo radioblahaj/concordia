@@ -24,6 +24,6 @@ export async function getAllMessages(user) {
     if (messageCount >= 200) {
         achivementMet = true;
     }
-    console.log(messageCount)
+    // console.log(messageCount)
     return messageCount
 }
