@@ -25,7 +25,7 @@ const app = new App({
     socketMode: true
 });
 
-app.event('member_joined_channel', async ({ event, client, logger }) => {
+app.event('team_join', async ({ event, client, logger }) => {
     try {
 
         const getMessages = await getAllMessages(event.user)
@@ -40,6 +40,7 @@ app.event('member_joined_channel', async ({ event, client, logger }) => {
             },
             create: {
                 id: event.user,
+                message_count: messageCount
                 join_date: Date.now()
             }
         })
@@ -49,9 +50,6 @@ app.event('member_joined_channel', async ({ event, client, logger }) => {
         console.log(e)
     }
 });
-
-
-
 
 
 (async () => {
