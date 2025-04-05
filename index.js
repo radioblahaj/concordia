@@ -40,7 +40,7 @@ app.event('team_join', async ({ event, client, logger }) => {
             },
             create: {
                 id: event.user,
-                message_count: messageCount
+                message_count: messageCount,
                 join_date: Date.now()
             }
         })
