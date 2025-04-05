@@ -3,6 +3,9 @@ import pkg from '@slack/bolt';
 const { App } = pkg;
 import { runRedis } from './runRedis.js';
 import dotenv from 'dotenv';
+import { getPrisma } from './getPrisma.js';
+const prisma = getPrisma();
+
 
 dotenv.config();
 
@@ -21,10 +24,20 @@ const web = new WebClient(token);
 const channelID = "C08JD1LKYBD" 
 
 app.event('member_joined_channel', async ({ event, client, logger }) => {
-    console.log(event.user)
-
-
+    try {
+    const createUser =  await prisma.Users.create({
+            data: {
+                id: event.user,
+                join_date: Date.now()
+            }
+        })
+        console.log(createUser)
+    } catch(e) {
+        console.log(e)
+    }
 });
+
+
 
 (async () => {
     // Start your app

@@ -1,1 +1,11 @@
 .env
+node_modules
+prisma/migrations/migration_lock.toml
+.gitignore
+prisma/migrations/20250405042144_init/migration.sql
+.gitignore
+prisma/migrations/20250405041405_init/migration.sql
+.gitignore
+prisma/migrations/20250405042415_init/migration.sql
+package-lock.json
+dump.rdb
