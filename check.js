@@ -16,35 +16,35 @@ async function check() {
     });
 
     await app.start(process.env.PORT || 3000);
-    
+
     dotenv.config();
     const prisma = getPrisma();
-    
-        const data = await prisma.Users.findMany();
+
+    const data = await prisma.Users.findMany();
+    console.log("hi")
+    for (const element of data) {
+        const messagecount = await getAllMessages(element.id)
+        console.log(messagecount)
         console.log("hi")
-        for (const element of data) {
-            const messagecount = await getAllMessages(element.id)
-            console.log(messagecount)
-            console.log("hi")
-            const updateUser = await prisma.Users.update({
+        const updateUser = await prisma.Users.update({
+            where: {
+                id: element.id,
+            },
+            data: {
+                message_count: messagecount
+            },
+        })
+        console.log(updateUser)
+        if (messagecount >= 2) {
+            const setApproved = await prisma.Users.update({
                 where: {
-                  id: element.id,
+                    id: element.id
                 },
                 data: {
-                 message_count: messagecount
-                },
-              })
-              console.log(updateUser)
-              if (messagecount >= 2) {
-                const setApproved =  await prisma.Users.update({
-                    where: {
-                        id: element.id
-                    },
-                    data: {
-                        Approved: true
-                    }
-                })
-                console.log(setApproved)
+                    Approved: true
+                }
+            })
+            console.log(setApproved)
             const webhookResponse = await fetch(process.env.SLACK_WEBHOOK_URL, {
                 method: "POST",
                 headers: {
@@ -57,18 +57,24 @@ async function check() {
             console.log('Webhook status:', webhookResponse.status);
         }
         if (element.Approved) {
-            app.client.chat.postMessage({
-                channel: "C08JD1LKYBD",
-                text: `form:`,
-            })
-            process.exit(0)
-        }
-        
-    
-    
+            try {
+                app.client.chat.postMessage({
+                    channel: "C08JD1LKYBD",
+                    text: `form:`,
+                })
+                process.exit(0)
+            } catch (e) {
+                console.error(e)
+                process.exit(0)
+
+            }
         }
 
-    
+
+
+    }
+
+
     console.log(':zap: Bolt app is running!');
 }
 
