@@ -36,7 +36,7 @@ app.event('team_join', async ({ event, client, logger }) => {
             },
             create: {
                 id: event.user.id,
-                join_date: Date.now()
+                join_date: String(Date.now())
             }
         })
 
