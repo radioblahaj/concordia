@@ -35,7 +35,7 @@ async function check() {
             },
         })
         console.log(updateUser)
-        if (messagecount >= 2) {
+        if (messagecount >= 100) {
             const setApproved = await prisma.Users.update({
                 where: {
                     id: element.id
