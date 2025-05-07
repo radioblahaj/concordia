@@ -7,7 +7,6 @@ async function check() {
     dotenv.config();
     const prisma = getPrisma();
     
-    cron.schedule('* * * * * *', async () => {
         const data = await prisma.Users.findMany();
         console.log("hi")
         for (const element of data) {
@@ -50,7 +49,7 @@ async function check() {
     
     
         }
-    });
+
     
     console.log(':zap: Bolt app is running!');
 }
