@@ -55,4 +55,4 @@ async function check() {
     console.log(':zap: Bolt app is running!');
 }
 
-check()
+await check()
