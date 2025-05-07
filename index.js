@@ -25,7 +25,7 @@ const app = new App({
 
 app.event('team_join', async ({ event, client, logger }) => {
     try {
-        const messageCount = await getAllMessages(event.user)
+        const messageCount = await getAllMessages(event.user.id)
 
         const createUser = await prisma.Users.upsert({
             where: {
