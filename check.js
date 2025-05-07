@@ -2,8 +2,21 @@ import dotenv from 'dotenv';
 import { getPrisma } from './getPrisma.js';
 import { getAllMessages } from './getAllMessages.js';
 import cron from 'node-cron';
+import pkg from '@slack/bolt';
+
 
 async function check() {
+    const { App } = pkg;
+
+    const app = new App({
+        token: process.env.SLACK_BOT_TOKEN,
+        signingSecret: process.env.SLACK_SIGNING,
+        appToken: process.env.SLACK_APPTOKEN,
+        socketMode: true
+    });
+
+    await app.start(process.env.PORT || 3000);
+    
     dotenv.config();
     const prisma = getPrisma();
     
@@ -38,14 +51,19 @@ async function check() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    text: `:yay: <@${element.id}> has posted 200 messages in 2 weeks! DM them to get their address & send them *Welcome Package (postcard + stickers)*`,
+                    text: `:yay: <@${element.id}> has posted 200 messages (${messagecount})! DM them to get their address & send them *Welcome Package (postcard + stickers)*`,
                 }),
             });
             console.log('Webhook status:', webhookResponse.status);
         }
         if (element.Approved) {
-            console.log("hii")
+            app.client.chat.postMessage({
+                channel: "C08JD1LKYBD",
+                text: `form:`,
+            })
+            process.exit(0)
         }
+        
     
     
         }
