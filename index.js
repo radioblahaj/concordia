@@ -29,13 +29,13 @@ app.event('team_join', async ({ event, client, logger }) => {
 
         const createUser = await prisma.Users.upsert({
             where: {
-                id: event.user
+                id: event.user.id
             },
             update: {
                 message_count: messageCount
             },
             create: {
-                id: event.user,
+                id: event.user.id,
                 join_date: Date.now()
             }
         })
