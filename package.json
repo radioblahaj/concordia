@@ -1,12 +1,21 @@
 {
     "type": "module",
     "devDependencies": {
-        "prisma": "^6.5.0"
+      "prisma": "^6.5.0"
     },
     "dependencies": {
-        "@js-temporal/polyfill": "^0.5.1",
-        "@prisma/client": "^6.5.0",
-        "chrono-node": "^2.8.0",
-        "node-cron": "^3.0.3"
+      "@js-temporal/polyfill": "^0.5.1",
+      "@prisma/client": "^6.5.0",
+      "chrono-node": "^2.8.0",
+      "node-cron": "^3.0.3",
+      "@slack/bolt": "^3.19.0",
+      "dotenv": "^10.0.0"  
+    },
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "npx prisma migrate deploy && npx prisma generate && node index.js",
+      "dev": "npx nodemon index.js",
+      "fmt": "npx prettier --write '**/*.js'"
     }
-}
+  }
+  
