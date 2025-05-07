@@ -27,9 +27,7 @@ const app = new App({
 
 app.event('team_join', async ({ event, client, logger }) => {
     try {
-
-        const getMessages = await getAllMessages(event.user)
-        const messageCount = getMessages.total_count
+        const messageCount = await getAllMessages(event.user)
 
         const createUser = await prisma.Users.upsert({
             where: {
@@ -40,7 +38,6 @@ app.event('team_join', async ({ event, client, logger }) => {
             },
             create: {
                 id: event.user,
-                message_count: messageCount,
                 join_date: Date.now()
             }
         })
@@ -55,33 +52,11 @@ app.event('team_join', async ({ event, client, logger }) => {
 (async () => {
     // Start your app
     await app.start(process.env.PORT || 3000);
-    cron.schedule('59 23 * * *', async () => {
-        const data = await prisma.Users.findMany();
-        for (const element of data) {
-            const messageCount = await getAllMessages(element.id)
-            //   console.log(messageCount.total_count)
-            if (messageCount.total_count > 200) {
-                await prisma.Users.update({
-                    where: {
-                        id: element.id
-                    },
-                    data: {
-                        messageCount: messageCount.total_count
-                    }
-                })
-                const webhookResponse = await fetch(process.env.SLACK_WEBHOOK_URL, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        text: ` :yay: <@${element.id}> has posted 200 messages in 2 weeks! DM them to get their address & send them *Welcome Package (postcard + stickers)*`,
-                    }),
-                });
-            }
-        }
-    });
-    console.log(':zap: Bolt app is running!');
+    console.log("Bolt app is running")
 })();
+
+
+
+
 
 

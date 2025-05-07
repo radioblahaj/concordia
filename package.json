@@ -4,7 +4,9 @@
         "prisma": "^6.5.0"
     },
     "dependencies": {
+        "@js-temporal/polyfill": "^0.5.1",
         "@prisma/client": "^6.5.0",
+        "chrono-node": "^2.8.0",
         "node-cron": "^3.0.3"
     }
 }
