@@ -1,4 +1,3 @@
-import { WebClient } from '@slack/web-api';
 import pkg from '@slack/bolt';
 import dotenv from 'dotenv';
 import { getPrisma } from './getPrisma.js';
@@ -14,7 +13,6 @@ const prisma = getPrisma();
 dotenv.config();
 
 const token = process.env.SLACK_BOT_TOKEN
-const web = new WebClient(token);
 
 // console.log(client)
 
