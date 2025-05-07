@@ -51,7 +51,7 @@ async function check() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    text: `:yay: <@${element.id}> has posted 200 messages (${messagecount})! DM them to get their address & send them *Welcome Package (postcard + stickers)*`,
+                    text: `:yay: <@${element.id}> has posted 100 messages (${messagecount})! DM them to get their address & send them *Welcome Package (postcard + stickers)*`,
                 }),
             });
             console.log('Webhook status:', webhookResponse.status);
