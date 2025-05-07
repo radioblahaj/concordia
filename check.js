@@ -32,7 +32,7 @@ async function check() {
                     }
                 })
                 console.log(setApproved)
-            const webhookResponse = await fetch("https://hooks.slack.com/services/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", {
+            const webhookResponse = await fetch(process.env.SLACK_WEBHOOK_URL, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
