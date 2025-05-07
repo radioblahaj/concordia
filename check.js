@@ -32,15 +32,15 @@ async function check() {
                     }
                 })
                 console.log(setApproved)
-            // const webhookResponse = await fetch("https://hooks.slack.com/services/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", {
-            //     method: "POST",
-            //     headers: {
-            //         "Content-Type": "application/json",
-            //     },
-            //     body: JSON.stringify({
-            //         text: `:yay: <@${element.id}> has posted 200 messages in 2 weeks! DM them to get their address & send them *Welcome Package (postcard + stickers)*`,
-            //     }),
-            // });
+            const webhookResponse = await fetch("https://hooks.slack.com/services/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", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    text: `:yay: <@${element.id}> has posted 200 messages in 2 weeks! DM them to get their address & send them *Welcome Package (postcard + stickers)*`,
+                }),
+            });
             console.log('Webhook status:', webhookResponse.status);
         }
         if (element.Approved) {
